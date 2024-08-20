@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">全国岗位薪酬3D图</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+</div>
+
+<div id="chart2" style="height: 860px"></div>
+<script src="{{ url_for('static',filename='../static/js/echarts_3D.js') }}"></script>
+<script type="text/javascript">
+    var dom = document.getElementById('chart2');
+    var myChart = echarts.init(dom, 'purple-passion', {
+        renderer: 'canvas',
+        useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    // prettier-ignore
+    var hours = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'];
+    // prettier-ignore
+    var days = ['1', '2', '3'];
+    // prettier-ignore
+    var data = [
+        [0, 0, 5122.346368715083, "生活服务", 5122.346368715083],
+        [0, 1, 1],
+        [0, 2, 6242.000735564546, "业务服务", 6242.000735564546],
+        [0, 3, 0],
+        [0, 4, 9],
+        [0, 5, 0],
+        [0, 6, 7349.497730865331, "批发贸易", 7349.497730865331],
+        [0, 7, 0],
+        [0, 8, 0],
+        [0, 9, 8795.129921467348, "医疗行业", 8795.129921467348],
+        [0, 10, 0],
+        [0, 11, 2],
+        [0, 12, 8130.521289295662, "制造业", 8130.521289295662],
+        [0, 13, 1],
+        [0, 14, 1],
+        [0, 15, 9],
+        [0, 16, 4],
+        [0, 17, 6],
+        [0, 18, 8348.15349700846, "文化传媒", 8348.15349700846],
+        [0, 19, 4],
+        [0, 20, 3],
+        [0, 21, 7],
+        [0, 22, 2],
+        [0, 23, 5],
+        [1, 0, 7],
+        [1, 1, 8342.66579549167, "交通运输", 8342.66579549167],
+        [1, 2, 0],
+        [1, 3, 0],
+        [1, 4, 0],
+        [1, 5, 0],
+        [1, 6, 8753.410124280084, "能源产业", 8753.410124280084],
+        [1, 7, 0],
+        [1, 8, 0],
+        [1, 9, 0],
+        [1, 10, 7779.987067571936, "农业", 7779.987067571936],
+        [1, 11, 2],
+        [1, 12, 2],
+        [1, 13, 6],
+        [1, 14, 9],
+        [1, 15, 8351.536952256376, "建筑行业", 9351.536952256376],
+        [1, 16, 6],
+        [1, 17, 7],
+        [1, 18, 8],
+        [1, 19, 12],
+        [1, 20, 5],
+        [1, 21, 8469.749832974538, "汽车行业", 8469.749832974538],
+        [1, 22, 7],
+        [1, 23, 2],
+        [2, 0, 1],
+        [2, 1, 1],
+        [2, 2, 0],
+        [2, 3, 0],
+        [2, 4, 0],
+        [2, 5, 10052.728300819905, "金融业", 11052.728300819905],
+        [2, 6, 0],
+        [2, 7, 0],
+        [2, 8, 0],
+        [2, 9, 7410.876856732151, "政府行业", 7410.876856732151],
+        [2, 10, 3],
+        [2, 11, 2],
+        [2, 12, 1],
+        [2, 13, 9],
+        [2, 14, 8],
+        [2, 15, 7410.876856732151, "政府行业", 7410.876856732151],
+        [2, 16, 6],
+        [2, 17, 6],
+        [2, 18, 5],
+        [2, 19, 5],
+        [2, 20, 7],
+        [2, 21, 4],
+        [2, 22, 2],
+        [2, 23, 9651.924868814674, "互联网行业", 9651.924868814674],
+
+    ];
+    option = {
+        tooltip: {},
+        visualMap: {
+            max: 9500,
+            min: 0,
+            inRange: {
+
+                color: ['#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43']
+            },
+            text: ['High', 'Low']
+        },
+        xAxis3D: {
+            type: 'category',
+            data: hours
+        },
+        yAxis3D: {
+            type: 'category',
+            data: days
+        },
+        zAxis3D: {
+            type: 'value'
+        },
+        grid3D: {
+            boxWidth: 250,
+            boxDepth: 60,
+            light: {
+                main: {
+                    intensity: 1.2
+                },
+                ambient: {
+                    intensity: 0.3
+                }
+            }
+        },
+        series: [{
+            type: 'bar3D',
+            data: data.map(function (item) {
+                return {
+                    value: [item[1], item[0], item[2], item[3], item[2]]
+                };
+            }),
+            shading: 'color',
+            label: {
+                show: false,
+                fontSize: 16,
+                borderWidth: 1
+            },
+            itemStyle: {
+                opacity: 0.4
+            },
+            emphasis: {
+                label: {
+                    fontSize: 20,
+                    color: '#198754'
+                },
+                itemStyle: {
+                    color: '#198754'
+                }
+            }
+        }]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+</script>
+
+
+</html>

@@ -1,0 +1,120 @@
+<div>
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">全国top行业薪酬趋势图</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-toolbar mb-2 mb-md-0">
+            </div>
+        </div>
+    </div>
+    <div id="echart3" style="height: 850px"></div>
+    <script>
+        document.getElementById('echart3').style.display = "block";
+        var dom = document.getElementById('echart3');
+        var myChart3 = echarts.init(dom, 'purple-passion', {
+            renderer: 'canvas',
+            useDirtyRect: false,
+
+        });
+        var app = {};
+        var ROOT_PATH = '../static/json/salaryMeanByTop.json';
+        var option3;
+
+        $.get(
+            ROOT_PATH,
+            function (_rawData) {
+                run(_rawData);
+            }
+        );
+        myChart3.clear()
+
+        function run(_rawData) {
+            // var countries = ['Australia', 'Canada', 'China', 'Cuba', 'Finland', 'France', 'Germany', 'Iceland', 'India', 'Japan', 'North Korea', 'South Korea', 'New Zealand', 'Norway', 'Poland', 'Russia', 'Turkey', 'United Kingdom', 'United States'];
+            const countries = [
+                '建筑行业',
+                '汽车行业',
+                '能源产业',
+                '互联网行业',
+                '金融业',
+                '医疗行业'
+            ];
+            const datasetWithFilters = [];
+            const seriesList = [];
+            echarts.util.each(countries, function (行业) {
+                var datasetId = 'dataset_' + 行业;
+                datasetWithFilters.push({
+                    id: datasetId,
+                    fromDatasetId: 'dataset_raw',
+                    transform: {
+                        type: 'filter',
+                        config: {
+                            and: [{
+                                dimension: 'Year',
+                                gte: 1800
+                            }, {
+                                dimension: '行业',
+                                '=': 行业
+                            }]
+                        }
+                    }
+                });
+                seriesList.push({
+                    type: 'line',
+                    datasetId: datasetId,
+                    showSymbol: false,
+                    name: 行业,
+                    endLabel: {
+                        show: true,
+                        formatter: function (params) {
+                            return params.value[1] + ': ' + params.value[0];
+                        }
+                    },
+                    labelLayout: {
+                        moveOverlap: 'shiftY'
+                    },
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    encode: {
+                        x: 'Year',
+                        y: '薪酬',
+                        label: ['行业', '薪酬'],
+                        itemName: 'Year',
+                        tooltip: ['薪酬']
+                    }
+                });
+            });
+            option3 = {
+                animationDuration: 10000,
+                dataset: [{
+                    id: 'dataset_raw',
+                    source: _rawData
+                },
+                ...datasetWithFilters
+                ],
+                tooltip: {
+                    order: 'valueDesc',
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    nameLocation: 'middle'
+                },
+                yAxis: {
+                    name: '薪酬'
+                },
+                grid: {
+                    right: 140
+                },
+                series: seriesList
+            };
+            myChart3.setOption(option3);
+        }
+
+        if (option3 && typeof option3 === 'object') {
+            myChart3.setOption(option3);
+        }
+
+        window.addEventListener('resize', myChart3.resize);
+    </script>
+</div>

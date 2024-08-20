@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>登录</title>
+    <link href="{{ url_for('static',filename='../static/img/profile.png') }}" rel="shortcut icon">
+    <link href="{{ url_for('static',filename='../static/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+
+    <style>
+        body {
+
+            position: relative;
+            background: #00b09b;
+            background: -webkit-linear-gradient(to right, rgb(0, 176, 155), rgb(150, 201, 61));
+            background: linear-gradient(to right, rgb(0, 176, 155), rgb(150, 201, 61));
+        }
+
+        #tips {
+            color: #ff0011;
+            font-size: 12px;
+            left: 0;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="row align-items-center" style="height: 80vh">
+    <div class="col"></div>
+    <div class="col-sm-3">
+        <form method="post" class="d-grid gap-4">
+            <div class="form-floating mb-3">
+
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="xxx" name="phone">
+                <label for="exampleInputEmail1" class="form-label">手机号</label>
+
+            </div>
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="xxx" name="password">
+                <label for="exampleInputPassword1" class="form-label">密码</label>
+
+
+            </div>
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">没有账号？</li>
+                    <li class="breadcrumb-item"><a href="/register" class="link-success">点击注册</a></li>
+
+                </ol>
+            </nav>
+
+            <div class="d-grid gap-2 col-6 mx-auto mt-5" style="text-align:center">
+                <button type="submit" class="btn btn-success btn-lg mt-3">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                <p id="tips">{{ msg }}</p>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>
+
+
+</body>
+
+
+<script src="{{ url_for('static',filename='../static/js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static',filename='../static/js/jquery.js') }}"></script>
+<script>
+    $(function () {
+            $(".btn btn-success btn-lg mt-3").hide();
+            $(".btn btn-success btn-lg mt-3").first().show();
+        }
+    )
+</script>

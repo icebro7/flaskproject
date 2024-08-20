@@ -1,0 +1,171 @@
+<!DOCUMENT html>
+	<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>词云</title>
+
+	</head>
+
+	<body>
+
+		<div
+			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<h1 class="h2">岗位需求前30词云图</h1>
+			<div class="btn-toolbar mb-2 mb-md-0">
+				<div class="btn-toolbar mb-2 mb-md-0">
+				</div>
+			</div>
+		</div>
+
+		<div id="main" style="height:860px;"></div>
+
+
+		<script type="text/javascript">
+
+			var dom = document.getElementById("main");
+			var mychart4 = echarts.init(dom, 'purple-passion', {
+				renderer: 'canvas',
+				useDirtyRect: false
+			});
+			var data1 = [
+				{
+					name: '营销员', value: 3308
+				},
+				{
+					name: '餐厅服务员', value: 3280
+				},
+				{
+					name: '商品营业员', value: 3079
+				},
+				{
+					name: '车工', value: 2941
+				},
+				{
+					name: '保安员', value: 2821
+				},
+				{
+					name: '客户服务管理员', value: 2783
+				},
+				{
+					name: '快递员', value: 2720
+				},
+				{
+					name: '保洁员', value: 2706
+				},
+				{
+					name: '家政服务员', value: 2695
+				},
+				{
+					name: '包装工', value: 2678
+				},
+				{
+					name: '焊工', value: 2578
+				},
+				{
+					name: '市场营销专业人员', value: 2478
+				},
+				{
+					name: '机械制造工程技术人员', value: 2378
+				},
+				{
+					name: '汽车生产线操作工', value: 2278
+				},
+				{
+					name: '房地产经纪人', value: 2178
+				},
+				{
+					name: '缝纫工', value: 2078
+				},
+				{
+					name: '电工', value: 1978
+				},
+				{
+					name: '呼叫中心服务员', value: 1928
+				},
+				{
+					name: '养老护理员', value: 1918
+				},
+				{
+					name: '前厅服务员', value: 1908
+				},
+				{
+					name: '机械设备安装工', value: 1878
+				},
+				{
+					name: '客房服务员', value: 1868
+				},
+				{
+					name: '育婴员', value: 1858
+				},
+				{
+					name: '仓储管理员', value: 1848
+				},
+				{
+					name: '电子专用设备装调工', value: 1818
+				},
+				{
+					name: '保险代理人', value: 1808
+				},
+				{
+					name: '理货员', value: 1708
+				},
+				{
+					name: '道路客运汽车驾驶员', value: 1701
+				},
+				{
+					name: '计算机程序设计员', value: 1628
+				},
+				{
+					name: '经济规划专业人员', value: 1608
+				}
+			]
+			var option4 = {
+
+
+				series: [{
+					type: 'wordCloud',
+
+					//网格尺寸,尺寸越大，字体之间的间隔越大
+					grideSize: 38,
+
+					//chart9
+
+					textStyle: {
+						fontFamily: 'sans-serif',
+						fontWeight: 'bold',
+						color: function () {
+							return 'rgb(' + [
+								Math.round(Math.random() * 255),
+								Math.round(Math.random() * 255),
+								Math.round(Math.random() * 255)
+							].join(',') + ')';
+						},
+
+
+
+
+
+					},
+
+
+					//字体的最大与最小字号
+					sizeRange: [10, 60],
+
+					//字体旋转的范围s
+					rotationRange: [-45, 0, 45, 90],
+
+					//词云形状 circle:圆形,pentagon:五边形
+					//c:苹果形或心形,star:星形,diamond:钻石,
+					//triangle-forward:三角形,triangle:三角形,smooth:平滑
+					shape: 'star',
+					data: data1
+				}]
+			};
+			mychart4.setOption(option4);
+			console.log(color);
+			window.addEventListener('resize', myChart4.resize);
+		</script>
+	</body>
+
+	</html>

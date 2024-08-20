@@ -1,0 +1,148 @@
+<div>
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">学历对比图</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-toolbar mb-2 mb-md-0">
+            </div>
+        </div>
+    </div>
+
+    <div id="chart5" style="height: 850px"></div>
+
+
+    <script>
+        var dom = document.getElementById('chart5');
+        var myChart5 = echarts.init(dom, 'purple-passion', {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option5;
+
+        setTimeout(function () {
+            option5 = {
+                animationDuration: 8000,
+                legend: {},
+                tooltip: {
+                    trigger: 'axis',
+                    showContent: false
+                },
+                dataset: {
+                    source: [
+                        ['学历', '一线城市', '准一线城市', '二线城市', '三线城市', '四线城市'],
+                        ['初中及以下', 6662.75659824047, 6791.22974261201, 5994.05267629567, 5210.52631578947, 4687.5],
+                        ['中专/中技', 6509.89226248776, 6807.29483282675, 6004.60193281178, 6125, 6206.89655172414],
+                        ['高中', 7994.70899470899, 7428.27442827443, 7598.77955758963, 7335.36090835361, 7435.71428571429],
+                        ['大专', 9647.13588186257, 8120.33948014811, 7715.25423728814, 7499.9306999307, 8046.00484261501],
+                        ['本科', 11227.0450751252, 8790.52913729773, 8144.44696797638, 8343.09876170341, 8559.84555984556],
+                        ['硕士', 17068.2056663169, 13415.0943396226, 10056.0165975104, 17722.4489795918, 9666.66666666667],
+                        ['博士', 32790.1234567901, 24447.6987447699, 18119.4029850746, 30000.36077835361, 10000],
+
+                    ]
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    gridIndex: 0
+                },
+                grid: {
+                    top: '55%'
+                },
+                series: [{
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {
+                        focus: 'series'
+                    }
+                }, {
+                    type: 'pie',
+                    id: 'pie',
+                    radius: '30%',
+                    center: ['50%', '25%'],
+                    emphasis: {
+                        focus: 'self'
+                    },
+                    label: {
+                        formatter: '{b}: {@一线城市} ({d}%)'
+                    },
+                    encode: {
+                        itemName: '学历',
+                        value: '一线城市',
+                        tooltip: '一线城市'
+                    }
+                }]
+            };
+            myChart5.on('updateAxisPointer', function (event) {
+                const xAxisInfo = event.axesInfo[0];
+                if (xAxisInfo) {
+                    const dimension = xAxisInfo.value + 1;
+                    myChart5.setOption({
+                        series: {
+                            id: 'pie',
+                            label: {
+                                formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+                            },
+                            encode: {
+                                value: dimension,
+                                tooltip: dimension
+                            }
+                        }
+                    });
+                }
+            });
+            myChart5.setOption(option5);
+        });
+
+        if (option5 && typeof option5 === 'object') {
+            myChart5.setOption(option5);
+        }
+
+        window.addEventListener('resize', myChart5.resize);
+    </script>
+</div>

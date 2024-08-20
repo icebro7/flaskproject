@@ -1,0 +1,132 @@
+<div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">全国平均工资图</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary" onclick="start()" for="btnradio1">转换</label>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="echart1" style="height: 850px"> {{sql}}</div>
+
+    <script>
+        var dom = document.getElementById('echart1');
+        var myChart1 = echarts.init(dom, 'purple-passion', {
+            renderer: 'canvas',
+            useDirtyRect: false
+        },'dark');
+        var app = {};
+        var PATH = '../static/json/cn.json'
+        var option1;
+        var interval = null; //计时器
+        var i = 0;
+        myChart1.showLoading();
+
+        $.get(PATH, (usaJson) => {
+            myChart1.hideLoading();
+            echarts.registerMap('USA', usaJson, {
+                Alaska: {
+
+                    left: -131,
+                    top: 25,
+                    width: 15
+                },
+                Hawaii: {
+                    left: -110,
+                    top: 28,
+                    width: 5
+                },
+                'Puerto Rico': {
+
+                    left: -76,
+                    top: 26,
+                    width: 2
+                }
+            });
+
+            var data = {{result|tojson}};
+
+
+            const mapOption = {
+                visualMap: {
+                    left: 'right',
+                    min: 6000,
+                    max: 17000,
+                    inRange: {
+                        // prettier-ignore
+                        color: ['#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                    },
+                    text: ['High', 'Low'],
+                    calculable: true
+                },
+                series: [{
+                    id: 'population',
+                    type: 'map',
+                    roam: true,
+                    map: 'USA',
+                    animationDurationUpdate: 1500,
+                    universalTransition: true,
+                    data: data
+                }]
+            };
+            const barOption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                xAxis: {
+                    type: 'value'
+                },
+                yAxis: {
+                    type: 'category',
+                    axisLabel: {
+                        rotate: 30
+                    },
+                    data: data.map(function(item) {
+                        return item.name;
+                    })
+                },
+                animationDurationUpdate: 1500,
+                series: {
+                    type: 'bar',
+                    id: 'population',
+                    data: data.map(function(item) {
+                        return item.value;
+                    }),
+                    universalTransition: true
+                }
+            };
+            let currentOption = mapOption;
+            myChart1.setOption(mapOption);
+
+            start = function() { //启动计时器函数
+                if (interval != null) { //判断计时器是否为空
+                    clearInterval(interval);
+                    console.log("1")
+                    interval = null;
+                }
+
+                interval = setInterval(transfer, 1000); //启动计时器，调用overs函数，
+            }
+            start = function() {
+                currentOption = currentOption === mapOption ? barOption : mapOption;
+                myChart1.setOption(currentOption, true);
+            }
+        });
+
+        if (option1 && typeof option1 === 'object') {
+            myChart1.setOption(option1);
+        }
+
+        window.addEventListener('resize', myChart1.resize);
+    </script>
+</div>
